@@ -1,11 +1,12 @@
 from whalealert.whalealert import WhaleAlert
 import time
 from queue import Queue
+from auth import WHALE_API_KEY
 
 class Whale:
     '''Class to define the API connection , retrieve all transaction from the last 10 minutes and select only the ones with a predifined value'''
     WHALE=WhaleAlert()
-    API_KEY='Personal whale alert api key'
+    API_KEY=WHALE_API_KEY
 
 
 
@@ -16,9 +17,10 @@ class Whale:
 
         return trans
 
-    def process_transactions(self,twiter_instance=None):
+    def process_transactions(self,twiter_instance):
         transaction_queue=Queue()
         list_trans=self.get_transactions()
+
         for tran in list_trans:
             dict_trans = {}
             if tran['symbol'] in ['BTC'] and tran['amount_usd'] > 20000000:
@@ -44,9 +46,11 @@ class Whale:
 
         while not transaction_queue.empty():
             transaction_to_be_processed=transaction_queue.get()
-            print(transaction_to_be_processed)
+            try:
+                tweeter_text=f"\U0001F6A8 \U0001F6A8 \U0001F6A8 BITCOIN WHALE ALERT: {transaction_to_be_processed['amount']} #BTC ({transaction_to_be_processed['usd_amount']} USD) was just transferred from {transaction_to_be_processed['from']} to {transaction_to_be_processed['to']}"
+                twiter_instance.post_tweet(tweeter_text)
+            except:
+                pass
 
 
 
-a=Whale()
-a.process_transactions()
