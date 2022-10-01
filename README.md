@@ -7,7 +7,7 @@ A automatic bot that connects to whale-alert API and retrieve transactions data 
 - - - -
 
 ## Key Features
-* Connects to WhaleAlertApi and checks all Bitcoin Transaction in the last 10 minutes
+* Connects to WhaleAlertApi and checks all Bitcoin Transaction from the last 10 minutes
 * Analyze transactions
 * Select only transactions with a value bigger then $2000000
 * Extracts all other information(sender,receiver,etc)
